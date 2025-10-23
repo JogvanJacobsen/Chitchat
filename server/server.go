@@ -1,7 +1,7 @@
 package main
 
 import (
-	proto "ITUServer/grpc"
+	proto "ChitChatServer/grpc"
 	"context"
 	"log"
 	"net"
@@ -9,33 +9,34 @@ import (
 	"google.golang.org/grpc"
 )
 
-type ITU_databaseServer struct {
-	proto.UnimplementedITUDatabaseServer
-	students []string
-}
-
-func (s *ITU_databaseServer) GetStudents(ctx context.Context, in *proto.Empty) (*proto.Students, error) {
-	return &proto.Students{Students: s.students}, nil
+type ChitChat_Server struct {
+	proto.UnimplementedChitChatClientsServer
+	clients []string
 }
 
 func main() {
-	server := &ITU_databaseServer{students: []string{}}
-	server.students = append(server.students, "John")
-	server.students = append(server.students, "Jane")
-	server.students = append(server.students, "Alice")
-	server.students = append(server.students, "Bob")
+	server := ChitChat_Server{clients: []string{}}
+
+	log.Print("Server has been started")
+
+	server.clients = append(server.clients, "John")
 
 	server.start_server()
+	log.Print("Server has been terminated")
 }
 
-func (s *ITU_databaseServer) start_server() {
+func getClients(s *ChitChat_Server, ctx context.Context, in *proto.Empty) (*proto.Clients, error) {
+	return &proto.Clients{Clients: s.clients}, nil
+}
+
+func (s *ChitChat_Server) start_server() {
 	grpcServer := grpc.NewServer()
 	listener, err := net.Listen("tcp", ":5050")
 	if err != nil {
 		log.Fatalf("Did not work")
 	}
 
-	proto.RegisterITUDatabaseServer(grpcServer, s)
+	proto.RegisterChitChatClientsServer(grpcServer, s)
 
 	err = grpcServer.Serve(listener)
 
