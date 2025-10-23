@@ -8,6 +8,7 @@ package proto
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -33,7 +34,7 @@ type chitChatClientsClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewChitChatClientsClient(cc grpc.ClientConnInterface) ChitChatClientsClient {
+func NewChitChatClientsServer(cc grpc.ClientConnInterface) ChitChatClientsClient {
 	return &chitChatClientsClient{cc}
 }
 
