@@ -6,8 +6,12 @@ message Clients {
 }
 
 message Empty {}
+message ClientRequest {
+    optional string client_id = 1;
+}
 
 service ChitChat {
     rpc GetClients (Empty) returns (Clients) {};
+    rpc ServerJoined (Empty) returns (ClientRequest) {};
 }
 
