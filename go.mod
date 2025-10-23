@@ -1,4 +1,4 @@
-module ITUServer
+module ChitChatServer
 
 go 1.23.1
 
