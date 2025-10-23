@@ -7,6 +7,7 @@ message Clients {
 
 message Empty {}
 
-service ChitChatClients {
+service ChitChat {
     rpc GetClients (Empty) returns (Clients) {};
 }
+

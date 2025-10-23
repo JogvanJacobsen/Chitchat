@@ -19,13 +19,13 @@ func main() {
 
 	log.Print("Server has been started")
 
-	server.clients = append(server.clients, "John")
+	server.clients = append(server.clients, "John W. Lennon")
 
 	server.start_server()
 	log.Print("Server has been terminated")
 }
 
-func getClients(s *ChitChat_Server, ctx context.Context, in *proto.Empty) (*proto.Clients, error) {
+func (s *ChitChat_Server) GetClients(ctx context.Context, in *proto.Empty) (*proto.Clients, error) {
 	return &proto.Clients{Clients: s.clients}, nil
 }
 
@@ -33,6 +33,7 @@ func (s *ChitChat_Server) start_server() {
 	grpcServer := grpc.NewServer()
 	listener, err := net.Listen("tcp", ":5050")
 	if err != nil {
+		log.Print(err)
 		log.Fatalf("Did not work")
 	}
 
