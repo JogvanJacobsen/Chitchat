@@ -12,6 +12,6 @@ message ClientRequest {
 
 service ChitChat {
     rpc GetClients (Empty) returns (Clients) {};
-    rpc ServerJoined (Empty) returns (ClientRequest) {};
+    rpc ServerJoined (ClientRequest) returns (Empty) {};
 }
 
