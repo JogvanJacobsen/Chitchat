@@ -2,13 +2,12 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.32.1
-// source: proto.proto
+// source: grpc/proto.proto
 
-package proto
+package grpc
 
 import (
 	context "context"
-
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -20,103 +19,221 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ChitChatClients_GetClients_FullMethodName = "/ChitChatClients/GetClients"
+	ChitChat_JoinServer_FullMethodName      = "/ChitChat/JoinServer"
+	ChitChat_LeaveServer_FullMethodName     = "/ChitChat/LeaveServer"
+	ChitChat_PublishMessage_FullMethodName  = "/ChitChat/PublishMessage"
+	ChitChat_ReceiveMessages_FullMethodName = "/ChitChat/ReceiveMessages"
 )
 
-// ChitChatClientsClient is the client API for ChitChatClients service.
+// ChitChatClient is the client API for ChitChat service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ChitChatClientsClient interface {
-	GetClients(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Clients, error)
+type ChitChatClient interface {
+	JoinServer(ctx context.Context, in *JoinServerRequest, opts ...grpc.CallOption) (*Empty, error)
+	LeaveServer(ctx context.Context, in *LeaveServerRequest, opts ...grpc.CallOption) (*Empty, error)
+	PublishMessage(ctx context.Context, in *ChatMessage, opts ...grpc.CallOption) (*Empty, error)
+	ReceiveMessages(ctx context.Context, in *ReceiveMessagesRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ChatMessage], error)
 }
 
-type chitChatClientsClient struct {
+type chitChatClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewChitChatClientsServer(cc grpc.ClientConnInterface) ChitChatClientsClient {
-	return &chitChatClientsClient{cc}
+func NewChitChatClient(cc grpc.ClientConnInterface) ChitChatClient {
+	return &chitChatClient{cc}
 }
 
-func (c *chitChatClientsClient) GetClients(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Clients, error) {
+func (c *chitChatClient) JoinServer(ctx context.Context, in *JoinServerRequest, opts ...grpc.CallOption) (*Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Clients)
-	err := c.cc.Invoke(ctx, ChitChatClients_GetClients_FullMethodName, in, out, cOpts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, ChitChat_JoinServer_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ChitChatClientsServer is the server API for ChitChatClients service.
-// All implementations must embed UnimplementedChitChatClientsServer
-// for forward compatibility.
-type ChitChatClientsServer interface {
-	GetClients(context.Context, *Empty) (*Clients, error)
-	mustEmbedUnimplementedChitChatClientsServer()
+func (c *chitChatClient) LeaveServer(ctx context.Context, in *LeaveServerRequest, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, ChitChat_LeaveServer_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
-// UnimplementedChitChatClientsServer must be embedded to have
+func (c *chitChatClient) PublishMessage(ctx context.Context, in *ChatMessage, opts ...grpc.CallOption) (*Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, ChitChat_PublishMessage_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *chitChatClient) ReceiveMessages(ctx context.Context, in *ReceiveMessagesRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[ChatMessage], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &ChitChat_ServiceDesc.Streams[0], ChitChat_ReceiveMessages_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[ReceiveMessagesRequest, ChatMessage]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type ChitChat_ReceiveMessagesClient = grpc.ServerStreamingClient[ChatMessage]
+
+// ChitChatServer is the server API for ChitChat service.
+// All implementations must embed UnimplementedChitChatServer
+// for forward compatibility.
+type ChitChatServer interface {
+	JoinServer(context.Context, *JoinServerRequest) (*Empty, error)
+	LeaveServer(context.Context, *LeaveServerRequest) (*Empty, error)
+	PublishMessage(context.Context, *ChatMessage) (*Empty, error)
+	ReceiveMessages(*ReceiveMessagesRequest, grpc.ServerStreamingServer[ChatMessage]) error
+	mustEmbedUnimplementedChitChatServer()
+}
+
+// UnimplementedChitChatServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedChitChatClientsServer struct{}
+type UnimplementedChitChatServer struct{}
 
-func (UnimplementedChitChatClientsServer) GetClients(context.Context, *Empty) (*Clients, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetClients not implemented")
+func (UnimplementedChitChatServer) JoinServer(context.Context, *JoinServerRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method JoinServer not implemented")
 }
-func (UnimplementedChitChatClientsServer) mustEmbedUnimplementedChitChatClientsServer() {}
-func (UnimplementedChitChatClientsServer) testEmbeddedByValue()                         {}
+func (UnimplementedChitChatServer) LeaveServer(context.Context, *LeaveServerRequest) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LeaveServer not implemented")
+}
+func (UnimplementedChitChatServer) PublishMessage(context.Context, *ChatMessage) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PublishMessage not implemented")
+}
+func (UnimplementedChitChatServer) ReceiveMessages(*ReceiveMessagesRequest, grpc.ServerStreamingServer[ChatMessage]) error {
+	return status.Errorf(codes.Unimplemented, "method ReceiveMessages not implemented")
+}
+func (UnimplementedChitChatServer) mustEmbedUnimplementedChitChatServer() {}
+func (UnimplementedChitChatServer) testEmbeddedByValue()                  {}
 
-// UnsafeChitChatClientsServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ChitChatClientsServer will
+// UnsafeChitChatServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ChitChatServer will
 // result in compilation errors.
-type UnsafeChitChatClientsServer interface {
-	mustEmbedUnimplementedChitChatClientsServer()
+type UnsafeChitChatServer interface {
+	mustEmbedUnimplementedChitChatServer()
 }
 
-func RegisterChitChatClientsServer(s grpc.ServiceRegistrar, srv ChitChatClientsServer) {
-	// If the following call pancis, it indicates UnimplementedChitChatClientsServer was
+func RegisterChitChatServer(s grpc.ServiceRegistrar, srv ChitChatServer) {
+	// If the following call pancis, it indicates UnimplementedChitChatServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&ChitChatClients_ServiceDesc, srv)
+	s.RegisterService(&ChitChat_ServiceDesc, srv)
 }
 
-func _ChitChatClients_GetClients_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
+func _ChitChat_JoinServer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JoinServerRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ChitChatClientsServer).GetClients(ctx, in)
+		return srv.(ChitChatServer).JoinServer(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ChitChatClients_GetClients_FullMethodName,
+		FullMethod: ChitChat_JoinServer_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChitChatClientsServer).GetClients(ctx, req.(*Empty))
+		return srv.(ChitChatServer).JoinServer(ctx, req.(*JoinServerRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// ChitChatClients_ServiceDesc is the grpc.ServiceDesc for ChitChatClients service.
+func _ChitChat_LeaveServer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LeaveServerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChitChatServer).LeaveServer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChitChat_LeaveServer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChitChatServer).LeaveServer(ctx, req.(*LeaveServerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ChitChat_PublishMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChatMessage)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChitChatServer).PublishMessage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ChitChat_PublishMessage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChitChatServer).PublishMessage(ctx, req.(*ChatMessage))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ChitChat_ReceiveMessages_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ReceiveMessagesRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ChitChatServer).ReceiveMessages(m, &grpc.GenericServerStream[ReceiveMessagesRequest, ChatMessage]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type ChitChat_ReceiveMessagesServer = grpc.ServerStreamingServer[ChatMessage]
+
+// ChitChat_ServiceDesc is the grpc.ServiceDesc for ChitChat service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var ChitChatClients_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ChitChatClients",
-	HandlerType: (*ChitChatClientsServer)(nil),
+var ChitChat_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "ChitChat",
+	HandlerType: (*ChitChatServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetClients",
-			Handler:    _ChitChatClients_GetClients_Handler,
+			MethodName: "JoinServer",
+			Handler:    _ChitChat_JoinServer_Handler,
+		},
+		{
+			MethodName: "LeaveServer",
+			Handler:    _ChitChat_LeaveServer_Handler,
+		},
+		{
+			MethodName: "PublishMessage",
+			Handler:    _ChitChat_PublishMessage_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto.proto",
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "ReceiveMessages",
+			Handler:       _ChitChat_ReceiveMessages_Handler,
+			ServerStreams: true,
+		},
+	},
+	Metadata: "grpc/proto.proto",
 }
