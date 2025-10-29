@@ -1,0 +1,13 @@
+Client 2 log:
+
+2025/10/29 14:46:07 joined as Andreas
+*** Type and press enter to send chat -- press Ctrl-C to leave server ***
+Server: Andreas joined the Chat, lt=7
+2025/10/29 14:46:07 [Client] Message: from=Server lt=7
+Server: Jogvan joined the Chat, lt=10
+2025/10/29 14:46:11 [Client] Message: from=Server lt=10
+Hello guys!
+Andreas: Hello guys!, lt=16
+2025/10/29 14:46:24 [Client] Message: from=Andreas lt=16
+Server: Jogvan left the Chat at logical time 16, lt=19
+2025/10/29 14:47:20 [Client] Message: from=Server lt=19

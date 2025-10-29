@@ -1,0 +1,19 @@
+Server log:
+
+2025/10/29 14:45:51 ChitChat server has been booted up
+2025/10/29 14:45:59 [Server] Join: user=Corner lt=2
+2025/10/29 14:45:59 [Server] Notice: to=Corner lt=3
+2025/10/29 14:46:07 [Server] Join: user=Andreas lt=4
+2025/10/29 14:46:07 [Server] Notice: to=Corner lt=5
+2025/10/29 14:46:07 [Server] Notice: to=Andreas lt=6
+2025/10/29 14:46:11 [Server] Join: user=Jogvan lt=7
+2025/10/29 14:46:11 [Server] Notice: to=Corner lt=8
+2025/10/29 14:46:11 [Server] Notice: to=Andreas lt=9
+2025/10/29 14:46:11 [Server] Notice: to=Jogvan lt=10
+2025/10/29 14:46:24 [Server] Message: from=Andreas lt=12
+2025/10/29 14:46:24 [Server] Notice: to=Jogvan lt=13
+2025/10/29 14:46:24 [Server] Notice: to=Corner lt=14
+2025/10/29 14:46:24 [Server] Notice: to=Andreas lt=15
+2025/10/29 14:47:20 [Server] Leave: user=Jogvan lt=16
+2025/10/29 14:47:20 [Server] Notice: to=Corner lt=17
+2025/10/29 14:47:20 [Server] Notice: to=Andreas lt=18

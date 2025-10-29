@@ -1,0 +1,9 @@
+Client 3 log:
+
+2025/10/29 14:46:11 joined as Jogvan
+*** Type and press enter to send chat -- press Ctrl-C to leave server ***
+Server: Jogvan joined the Chat, lt=11
+2025/10/29 14:46:11 [Client] Message: from=Server lt=11
+Andreas: Hello guys!, lt=14
+2025/10/29 14:46:24 [Client] Message: from=Andreas lt=14
+^C2025/10/29 14:47:20 recv closed: EOF

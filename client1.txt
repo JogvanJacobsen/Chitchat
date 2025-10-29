@@ -1,0 +1,14 @@
+Client 1 log:
+
+2025/10/29 14:45:59 joined as Corner
+Server: Corner joined the Chat, lt=4
+2025/10/29 14:45:59 [Client] Message: from=Server lt=4
+*** Type and press enter to send chat -- press Ctrl-C to leave server ***
+Server: Andreas joined the Chat, lt=6
+2025/10/29 14:46:07 [Client] Message: from=Server lt=6
+Server: Jogvan joined the Chat, lt=9
+2025/10/29 14:46:11 [Client] Message: from=Server lt=9
+Andreas: Hello guys!, lt=15
+2025/10/29 14:46:24 [Client] Message: from=Andreas lt=15
+Server: Jogvan left the Chat at logical time 16, lt=18
+2025/10/29 14:47:20 [Client] Message: from=Server lt=18
