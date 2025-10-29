@@ -138,8 +138,6 @@ func (s *ChitChatServer) ReceiveMessages(req *proto.ReceiveMessagesRequest, stre
 
 	// Read from the client's channel and notify messages back in server.
 	for msg := range ch {
-		s.clock++
-		msg.Timestamp = s.clock
 		if err := stream.Send(msg); err != nil {
 			return err
 		}

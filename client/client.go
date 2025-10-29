@@ -57,6 +57,7 @@ func main() {
 			}
 			clock = max(clock, m.Timestamp) + 1
 			fmt.Printf("%s: %s, lt=%d\n", m.Sender, m.Message, clock)
+			log.Printf("[Client] Message: from=%s lt=%d", m.Sender, clock)
 		}
 	}()
 
