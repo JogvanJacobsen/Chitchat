@@ -142,12 +142,12 @@ func (s *ChitChatServer) ReceiveMessages(req *proto.ReceiveMessagesRequest, stre
 		s.clock++
 		currentTimestamp := s.clock
 		msg.Timestamp = currentTimestamp
-		s.mu.Unlock()
 
 		if err := stream.Send(msg); err != nil {
 			return err
 		}
 		log.Printf("[Server] Notice: to=%s lt=%d", req.Username, currentTimestamp)
+		s.mu.Unlock()
 	}
 	return nil
 }
